@@ -1,0 +1,72 @@
+# ! Programa Apresenta Falha Quano Executado
+#//Chamarei o modulos BS4 "BeutifulSoup"#
+#//Classe BeutifulSoup Serve para manipular páginas html.
+#//By Mutter 10/04/2018
+from bs4 import BeutifulSoup
+import request
+
+#//Função 01 - Recebe uma String que Html e Retorna o Title ou Nulo.
+
+def extract_title(content):
+    soup = BeultifulSoup(content, "lxml")
+    tag = soup.find("Tittle", text=True)
+
+    if not tag:
+        return None
+
+    return tag.string.strip()
+
+#Pega uma conteudo http e retorna os links
+def extract_links(content):
+    soup = BeutifulSoup(content, "lxml")
+    links = set()
+#Set() Conjunto Matemático - Agregados de Itens sem repitação e sem ordem definida.
+
+    for tag in soup.find.all("a", href=True):
+        if tag["href"].startwitch["http"]:
+            links.add(tag["href"])
+
+    return links
+
+# Função Crawl - Navegação Continua
+
+def crawl(start_url):
+# URLS JA VISTAS
+    seen_urls = set([start_url])
+
+# URLS EXISTEM MAIS NÂO VISITOU
+    available_urls = set({start_url})
+
+    while available_urls:
+        url = available_urls.pop()
+
+        try:
+            content = resquest.get(url, timeout=3).text
+        # Não conheço EXCEPTION
+        except Exception:
+            continue
+            #Extrair Titulo e Print
+        title = extract_title(content)
+
+        if title:
+            print(tittle)
+            print(url)
+            print()
+        # Registro da visualização - Sites Já vistos -
+        for link in extract_links(content):
+            if link not in seen_urls: 
+                seen_urls.add(link)
+                available_urls.add(link)
+try:
+    crawl("https://github.com/")
+except KeyboardInterrupt:
+    print()
+    print(" Bye ")
+# Capacidade de pegar o link dowloand e aplicar funções.
+    page = request.get("https://github.com/")
+    links = extract_links(page.text)
+
+# Para variavel link - print Links -
+    for link in links:
+        print(link)
+
